@@ -1,0 +1,57 @@
+<!-- login.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login</title>
+  <style>
+    body {
+        background-image: url('image/background.svg');
+        background-repeat: no-repeat;
+        background-size: cover;
+      background-color: #f2f6ff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      background-color: #ffffff;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    h1 {
+      color: #337ab7;
+    }
+
+    .button {
+      display: inline-block;
+      background-color: #337ab7;
+      color: #ffffff;
+      padding: 10px 20px;
+      border-radius: 5px;
+      border: none;
+      margin: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .button:hover {
+      background-color: #23527c;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Login</h1>
+    
+    <button class="button" onclick="location.href='userlogin.php'">User</button>
+    <button class="button" onclick="location.href='admin_dashboard.php'">Technician</button>
+  </div>
+</body>
+</html>

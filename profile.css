@@ -1,0 +1,93 @@
+/* profile.css */
+
+#profileContent {
+    background-color: #ffffff;
+    border: 1px solid #eaeaea;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#profileContent h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333333;
+    text-align: center;
+}
+
+#profileContent p {
+    font-size: 18px;
+    margin-bottom: 15px;
+    color: #555555;
+}
+
+#profileContent p strong {
+    font-weight: bold;
+    color: #000000;
+}
+
+#profileContent button {
+    background-color: #000b5a;
+    color: white;
+    padding: 8px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+#profileContent button:hover {
+    background-color: #45a049;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    #profileContent {
+        padding: 20px;
+    }
+
+    #profileContent h2 {
+        font-size: 20px;
+    }
+
+    #profileContent p {
+        font-size: 16px;
+    }
+
+    #profileContent button {
+        font-size: 14px;
+    }
+}
+
+
+/* Button Styles */
+.accept-button,
+.reject-button {
+    background-color: #007c1d; /* Green for accept button, change to desired color */
+    color: #fff; /* White text color */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 8px 16px; /* Padding */
+    cursor: pointer; /* Cursor style */
+    font-size: 14px; /* Font size */
+    margin-right: 5px; /* Margin right for spacing */
+    transition: background-color 0.3s; /* Smooth transition for background color */
+}
+
+/* Reject Button */
+.reject-button {
+    background-color: #9a002c; /* Red for reject button, change to desired color */
+}
+
+/* Button Hover */
+.accept-button:hover,
+.reject-button:hover {
+    filter: brightness(110%); /* Increase brightness on hover */
+}
+
+/* Button Click */
+.accept-button:active,
+.reject-button:active {
+    filter: brightness(90%); /* Decrease brightness on click */
+}

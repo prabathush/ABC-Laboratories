@@ -1,0 +1,28 @@
+/* Add this CSS to your external stylesheet or inside a <style> tag in your HTML file */
+
+#viewPrescriptionsContent {
+    display: none; /* Hide the content by default */
+    padding: 20px; /* Add padding for spacing */
+}
+
+.prescription-item {
+    background-color: #f9f9f9; /* Light background color */
+    border: 1px solid #ddd; /* Border for each prescription item */
+    border-radius: 8px; /* Rounded corners */
+    padding: 15px; /* Add padding for spacing */
+    margin-bottom: 20px; /* Margin between prescription items */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+}
+
+.prescription-item h3 {
+    font-size: 18px; /* Prescription title font size */
+    color: #333; /* Prescription title color */
+    margin-bottom: 10px; /* Margin below title */
+}
+
+.prescription-item p {
+    font-size: 16px; /* Prescription details font size */
+    color: #666; /* Prescription details color */
+    margin-bottom: 8px; /* Margin below details */
+}
+
