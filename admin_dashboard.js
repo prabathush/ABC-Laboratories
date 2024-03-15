@@ -1,5 +1,10 @@
 function manageTestDetails() {
     showContent("testDetailsContent");
+    document.getElementById("testDetailsContent").style.display = "block";
+    document.getElementById("inquiriesContent").style.display = "none";
+    document.getElementById("labTechniciansContent").style.display = "none";
+    document.getElementById("appointmentsContent").style.display = "none";
+
 }
 
 function manageInquiries() {
