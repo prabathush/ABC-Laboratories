@@ -15,22 +15,44 @@ class UserRegistration {
     }
 
     public function registerUser($name, $email, $address, $contact, $dob, $password) {
+        // Check if the email already exists
+        $stmt = $this->conn->prepare("SELECT * FROM users WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        if (!$stmt->execute()) {
+            // Error occurred during query execution
+            $_SESSION["error"] = "An error occurred. Please try again later.";
+            header("location: user_register.php");
+            exit();
+        }
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            // Email already exists, show alert message and return false
+            echo "<script>alert('Email address already exists. Please use a different email.'); console.log('Alert shown.'); window.location.href = 'user_register.php';</script>";
+            exit();
+        }
+    
         // Hash the password before storing it in the database
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-
-        // Prepare and bind parameters
+    
+        // Prepare and bind parameters for insertion
         $stmt = $this->conn->prepare("INSERT INTO users (name, email, address, contact, dob, password) VALUES (?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("ssssss", $name, $email, $address, $contact, $dob, $hashed_password);
-        $this->sendRegistrationEmail($email, $name, $password); // Registration successful
-
-        
+    
+        // Send registration email
+        $this->sendRegistrationEmail($email, $name, $password);
+    
         // Execute query
         if ($stmt->execute()) {
-            return true;
+            echo "<script>alert('Registration successful.'); console.log('Alert shown.');  window.location.href = 'user_register.php';</script>";
+            return true; // Registration successful
         } else {
-            return false; // Registration failed
+            $_SESSION["error"] = "Registration failed. Please try again.";
+            header("location: user_register.php");
+            exit();
         }
     }
+    
+    
 
     // Function to send registration confirmation email
     private function sendRegistrationEmail($email, $name, $password) {
