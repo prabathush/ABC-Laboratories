@@ -18,6 +18,7 @@ class Database {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    
     // Bind values for prepared statements
     public function bind($param, $value, $type = null) {
         // Implementation of bind() method
