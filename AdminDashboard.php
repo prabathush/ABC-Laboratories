@@ -145,8 +145,7 @@ class AdminDashboard
                         <li><a href="#" onclick="manageAppointments()"> Appointments</a></li>
                         <li><a href="#" onclick="manageTestResults()"> Test Results</a></li>
                         <li><a href="#" onclick="managePatients()"> Patients</a></li>
-                        <li><a href="#" onclick="registerLabTechnician()"> Lab Technician</a></li>
-                        <li><a href="#" onclick="addTestDetails()">Add Test Details</a></li>
+                        
                         <li><a href="#" onclick="viewAnalytics()">Analytics</a></li>
                     </ul>
                 </nav>
@@ -299,123 +298,153 @@ class AdminDashboard
 
 
 
-                    <div id="appointmentsContent" class="content" style="display: none;">
-                        <h2>Manage Appointments</h2>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Phone</th>
-                                    <th>Appointment Date</th>
-                                    <th>Appointment Time</th>
-                                    <th>Appointment Type</th>
-                                    <th>Section</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach ($appointments as $appointment): ?>
-                                    <tr>
-                                        <td>
-                                            <?= $appointment['id'] ?>
-                                        </td>
-                                        <td>
-                                            <?= $appointment['name'] ?>
-                                        </td>
-                                        <td>
-                                            <?= $appointment['email'] ?>
-                                        </td>
-                                        <td>
-                                            <?= $appointment['phone'] ?>
-                                        </td>
-                                        <td>
-                                            <?= $appointment['appointment_date'] ?>
-                                        </td>
-                                        <td>
-                                            <?= $appointment['appointment_time'] ?>
-                                        </td>
-                                        <td>
-                                            <?= $appointment['appointment_type'] ?>
-                                        </td>
-                                        <td>
-                                            <?= $appointment['section'] ?>
-                                        </td>
-                                        <td>
-                                            <a href="edit_appointment.php?id=<?= $appointment['id'] ?>" class="edit-btn">Edit</a>
-                                            <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-                                                <input type="hidden" name="delete_appointment_id" value="<?= $appointment['id'] ?>">
-                                                <button type="submit" class="delete-btn">Delete</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
-                    </div>
+                    <div class="content" id="appointmentsContent" style="display: none;">
+    <h2>Appointments</h2>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Appointment Date</th>
+                <th>Appointment Time</th>
+                <th>Appointment Type</th>
+                <th>Section</th>
+                <th>Created At</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            $host = "localhost";
+            $dbname = "abc laboratories";
+            $username = "root";
+            $password = ""; // Replace with your actual database password
+
+            try {
+                // Establish a database connection
+                $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
+                // Set PDO error mode to exception
+                $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            } catch (PDOException $e) {
+                // Display error message if connection fails
+                die("Connection failed: " . $e->getMessage());
+            }
+
+            $sql = "SELECT * FROM appointments";
+            $result = $pdo->query($sql);
+            while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+                echo "<tr>";
+                echo "<td>{$row['ID']}</td>";
+                echo "<td>{$row['name']}</td>";
+                echo "<td>{$row['email']}</td>";
+                echo "<td>{$row['phone']}</td>";
+                echo "<td>{$row['appointment_date']}</td>";
+                echo "<td>{$row['appointment_time']}</td>";
+                echo "<td>{$row['appointment_type']}</td>";
+                echo "<td>{$row['section']}</td>";
+                echo "<td>{$row['created_at']}</td>";
+                echo "<td><a href='admin_edit_appointment.php?id={$row['ID']}' class='edit-btn'>Edit</a> <a href='admin_delete_appointment.php?id={$row['ID']}' class='delete-btn'>Delete</a></td>";
+                echo "</tr>";
+            }
+            ?>
+        </tbody>
+    </table>
+
+    <div class="container">
+        <h2>Create Appointment</h2>
+        <form action="admin_create_appointment.php" method="post">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required><br><br>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required><br><br>
+            <label for="phone">Phone:</label>
+            <input type="text" id="phone" name="phone" required><br><br>
+            <label for="appointment_date">Appointment Date:</label>
+            <input type="date" id="appointment_date" name="appointment_date" required><br><br>
+            <label for="appointment_time">Appointment Time:</label>
+            <input type="time" id="appointment_time" name="appointment_time" required><br><br>
+            <label for="appointment_type">Appointment Type:</label>
+            <input type="text" id="appointment_type" name="appointment_type" required><br><br>
+            <label for="section">Section:</label>
+            <input type="text" id="section" name="section" required><br><br>
+            <input type="submit" value="Create Appointment">
+        </form>
+    </div>
+</div>
+
 
 
                     <div id="patientsContent" class="content" style="display: none;">
                         <h2>User Details</h2>
                         <style>
+                            body {
+                                font-family: Arial, sans-serif;
+                                background-color: #f4f4f4;
+                                margin: 0;
+                                padding: 0;
+                            }
 
-body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
-        margin: 0;
-        padding: 0;
-    }
-    .container {
-        max-width: 600px;
-        margin: 50px auto;
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-    h2 {
-        text-align: center;
-        color: #333;
-    }
-    .form-row {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 20px;
-    }
-    .form-row .form-group {
-        flex-basis: calc(33.33% - 10px);
-    }
-    .form-group {
-        margin-bottom: 15px;
-    }
-    label {
-        display: block;
-        font-weight: bold;
-        margin-bottom: 5px;
-    }
-    input[type="text"],
-    input[type="email"],
-    input[type="date"],
-    input[type="password"] {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        box-sizing: border-box;
-    }
-    input[type="submit"] {
-        background-color: #4CAF50;
-        color: white;
-        padding: 12px 20px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        width: 100%;
-    }
-    input[type="submit"]:hover {
-        background-color: #45a049;
-    }
+                            .container {
+                                max-width: 600px;
+                                margin: 50px auto;
+                                background-color: #fff;
+                                padding: 20px;
+                                border-radius: 8px;
+                                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                            }
+
+                            h2 {
+                                text-align: center;
+                                color: #333;
+                            }
+
+                            .form-row {
+                                display: flex;
+                                justify-content: space-between;
+                                margin-bottom: 20px;
+                            }
+
+                            .form-row .form-group {
+                                flex-basis: calc(33.33% - 10px);
+                            }
+
+                            .form-group {
+                                margin-bottom: 15px;
+                            }
+
+                            label {
+                                display: block;
+                                font-weight: bold;
+                                margin-bottom: 5px;
+                            }
+
+                            input[type="text"],
+                            input[type="email"],
+                            input[type="date"],
+                            input[type="password"] {
+                                width: 100%;
+                                padding: 10px;
+                                border: 1px solid #ccc;
+                                border-radius: 4px;
+                                box-sizing: border-box;
+                            }
+
+                            input[type="submit"] {
+                                background-color: #4CAF50;
+                                color: white;
+                                padding: 12px 20px;
+                                border: none;
+                                border-radius: 4px;
+                                cursor: pointer;
+                                width: 100%;
+                            }
+
+                            input[type="submit"]:hover {
+                                background-color: #45a049;
+                            }
                         </style>
                         <div class="user-table">
                             <table>
@@ -469,42 +498,116 @@ body {
                         </div>
 
                         <div class="container">
-    <h2>Create User</h2>
-    <form action="admin_createuser.php" method="post">
-        <div class="form-row">
-            <div class="form-group">
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" required>
-            </div>
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
-            </div>
-            <div class="form-group">
-                <label for="address">Address:</label>
-                <input type="text" id="address" name="address" required>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group">
-                <label for="contact">Contact:</label>
-                <input type="text" id="contact" name="contact" required>
-            </div>
-            <div class="form-group">
-                <label for="dob">Date of Birth:</label>
-                <input type="date" id="dob" name="dob" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-        </div>
-        <input type="submit" value="Create User">
-    </form>
-</div>
+                            <h2>Create User</h2>
+                            <form action="admin_createuser.php" method="post">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="name">Name:</label>
+                                        <input type="text" id="name" name="name" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email">Email:</label>
+                                        <input type="email" id="email" name="email" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="address">Address:</label>
+                                        <input type="text" id="address" name="address" required>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="contact">Contact:</label>
+                                        <input type="text" id="contact" name="contact" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="dob">Date of Birth:</label>
+                                        <input type="date" id="dob" name="dob" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="password">Password:</label>
+                                        <input type="password" id="password" name="password" required>
+                                    </div>
+                                </div>
+                                <input type="submit" value="Create User">
+                            </form>
+                        </div>
                     </div>
 
+                    <div class="content" id="labTechniciansContent"  style="display: none;">
+                        <h2>Technicians</h2>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Address</th>
+                                    <th>Qualification</th>
+                                    <th>Experience</th>
+                                    <th>Specialization</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <?php
+            $host = "localhost";
+            $dbname = "abc laboratories";
+            $username = "root";
+            $password = ""; // Replace with your actual database password
 
+            try {
+                // Establish a database connection
+                $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
+                // Set PDO error mode to exception
+                $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            } catch (PDOException $e) {
+                // Display error message if connection fails
+                die("Connection failed: " . $e->getMessage());
+            }
+
+            $sql = "SELECT * FROM technicians";
+            $result = $pdo->query($sql);
+            while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+                echo "<tr>";
+                echo "<td>{$row['id']}</td>";
+                echo "<td>{$row['name']}</td>";
+                echo "<td>{$row['email']}</td>";
+                echo "<td>{$row['address']}</td>";
+                echo "<td>{$row['phone']}</td>";
+                echo "<td>{$row['qualification']}</td>";
+                echo "<td>{$row['experience']}</td>";
+                echo "<td>{$row['specialization']}</td>";
+                echo "<td><a href='admin_edit_lab_technician.php?id={$row['id']}' class='edit-btn'>Edit</a> <a href='admin_delete_lab_technician.php?id={$row['id']}' class='delete-btn'>Delete</a></td>";
+                echo "</tr>";
+            }
+            ?>
+                            </tbody>
+                        </table>
+
+
+                        <div class="container">
+                            <h2>Create Technician</h2>
+                            <form action="admin_create_technician.php" method="post">
+                                <label for="name">Name:</label>
+                                <input type="text" id="name" name="name" required><br><br>
+                                <label for="email">Email:</label>
+                                <input type="email" id="email" name="email" required><br><br>
+                                <label for="phone">Phone:</label>
+                                <input type="text" id="phone" name="phone" required><br><br>
+                                <label for="address">Address:</label>
+                                <input type="text" id="address" name="address" required><br><br>
+                                <label for="qualification">Qualification:</label>
+                                <input type="text" id="qualification" name="qualification" required><br><br>
+                                <label for="experience">Experience:</label>
+                                <input type="text" id="experience" name="experience" required><br><br>
+                                <label for="specialization">Specialization:</label>
+                                <input type="text" id="specialization" name="specialization" required><br><br>
+                                <input type="submit" value="Create Technician">
+                            </form>
+                        </div>
+
+                    </div>
 
 
 
