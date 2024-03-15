@@ -1,21 +1,25 @@
 <?php
 session_start();
 
-class DashboardManager {
+require_once 'db_connection.php';
+class DashboardManager
+{
     private $conn;
 
-    public function __construct($servername, $username, $password, $dbname) {
+    public function __construct($servername, $username, $password, $dbname)
+    {
         // Create connection
         $this->conn = new mysqli($servername, $username, $password, $dbname);
 
         // Check connection
         if ($this->conn->connect_error) {
-            die("Connection failed: " . $this->conn->connect_error);
+            die ("Connection failed: " . $this->conn->connect_error);
         }
     }
 
-    public function fetchUserProfile() {
-        if (!isset($_SESSION['user_id'])) {
+    public function fetchUserProfile()
+    {
+        if (!isset ($_SESSION['user_id'])) {
             return null; // Return null if user is not logged in
         }
 
@@ -34,8 +38,9 @@ class DashboardManager {
         }
     }
 
-    public function fetchQuotations() {
-        if (!isset($_SESSION['user_id'])) {
+    public function fetchQuotations()
+    {
+        if (!isset ($_SESSION['user_id'])) {
             return null; // Return null if user is not logged in
         }
 
@@ -55,12 +60,13 @@ class DashboardManager {
         return $quotations;
     }
 
-    public function closeConnection() {
+    public function closeConnection()
+    {
         $this->conn->close();
     }
 }
 
-if (!isset($_SESSION['user_id'])) {
+if (!isset ($_SESSION['user_id'])) {
     header("Location: userlogin.php");
     exit();
 }
@@ -79,6 +85,7 @@ $dashboardManager->closeConnection();
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -89,49 +96,226 @@ $dashboardManager->closeConnection();
     <link rel="stylesheet" href="viewprescriptions.css">
 
     <style>
-        
+
     </style>
 </head>
+
 <body>
     <div class="dashboard">
 
         <nav class="sidebar">
             <h2>User Dashboard</h2>
             <ul>
-                <li><a href="#" onclick="showProfile()">Profile</a></li>
+                <li><a href="#" onclick="showPatient()">Profile</a></li>
+                <li><a href="#" onclick="showAppointments()">Appointments</a></li>
                 <li><a href="#" onclick="showUploadPrescription()">Upload Prescription</a></li>
                 <li><a href="#" onclick="showViewPrescriptions()">View Prescriptions</a></li>
                 <li><a href="#" onclick="showQuotations()">Quotations</a></li>
+                <li><a href="#" onclick="showInquiries()">Inquiries</a></li>
                 <li><a href="#" onclick="showLogout()">Logout</a></li>
             </ul>
         </nav>
-       
+
         <div class="main">
             <header>
                 <h1>Welcome to Your Dashboard</h1>
             </header>
-            <div id="profileContent" class="content" style="display: none;">
-                <h2>Profile</h2><hr>
-                <div id="profileDetails">
-                    <?php
+            <div id="profileContent" class="content">
+                <h2>Profile</h2>
+                <hr>
+
+                <?php
+                // Include the database connection file
+                require_once "db_connection.php";
+
+                // Assume $pdo is the PDO object for database connection
+                
+                // Check if user is logged in and retrieve user details
+                
+                if (isset ($_SESSION["user_id"])) {
+                    $userId = $_SESSION["user_id"];
+
+                    // Prepare and execute query to fetch user details
+                    $sql = "SELECT name, email, address, contact, dob FROM users WHERE id = ?";
+                    $stmt = $pdo->prepare($sql);
+                    $stmt->execute([$userId]);
+                    $userProfile = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                    // Check if user profile exists
                     if ($userProfile) {
-                        echo "<p>Name         : {$userProfile['name']}</p>";
-                        echo "<p>Email        : {$userProfile['email']}</p>";
-                        echo "<p>Address      : {$userProfile['address']}</p>";
-                        echo "<p>Contact      : {$userProfile['contact']}</p>";
+                        echo "<p>Name: {$userProfile['name']}</p>";
+                        echo "<p>Email: {$userProfile['email']}</p>";
+                        echo "<p>Address: {$userProfile['address']}</p>";
+                        echo "<p>Contact: {$userProfile['contact']}</p>";
                         echo "<p>Date of Birth: {$userProfile['dob']}</p>";
+                        echo '<a href="edit_profile.php"><button>Edit Profile</button></a>';
                     } else {
                         echo "User profile not found.";
                     }
-                    ?>
-                </div> <br>
-                <button onclick="editProfile()">Edit Profile</button>
+                } else {
+                    echo "User not logged in.";
+                }
+                ?>
+<div style="max-width: 30%; float: right; text-align: center; padding-top: 30px;">
+        <img src="logo.png" alt="Logo" style="max-width: 100%; height: auto;">
+    </div>
             </div>
 
+
+            <div id="appointmentsContent" class="content" style="display: none;" >
+                <h2>Appointments</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Appointment Date</th>
+                            <th>Appointment Time</th>
+                            <th>Appointment Type</th>
+                            <th>Section</th>
+                            <th>Created At</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        // Include the database connection file
+                        require_once "db_connection.php";
+
+                        // Check if the user is logged in and get the user ID from the session
+                        
+                        if (isset ($_SESSION["user_id"])) {
+                            $userId = $_SESSION["user_id"];
+
+                            // Prepare and execute the query to fetch appointments for the logged-in user
+                            $sql = "SELECT * FROM appointments WHERE user_id = :user_id";
+                            $stmt = $pdo->prepare($sql);
+                            $stmt->bindParam(":user_id", $userId, PDO::PARAM_INT);
+                            $stmt->execute();
+
+                            // Fetch appointments and display them in the table
+                            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                echo "<tr>";
+                                echo "<td>{$row['ID']}</td>";
+                                echo "<td>{$row['name']}</td>";
+                                echo "<td>{$row['email']}</td>";
+                                echo "<td>{$row['phone']}</td>";
+                                echo "<td>{$row['appointment_date']}</td>";
+                                echo "<td>{$row['appointment_time']}</td>";
+                                echo "<td>{$row['appointment_type']}</td>";
+                                echo "<td>{$row['section']}</td>";
+                                echo "<td>{$row['created_at']}</td>";
+                                echo "<td><a href='user_edit_appointment.php?id={$row['ID']}' class='edit-btn'>Edit</a> <a href='delete_appointment.php?id={$row['ID']}' class='delete-btn'>Delete</a></td>";
+                                echo "</tr>";
+                            }
+                        } else {
+                            echo "User is not logged in.";
+                        }
+                        ?>
+                    </tbody>
+                </table>
+                <br><br><br><br>
+                <div class="container">
+                    <h2>Book Appointment</h2>
+                    <style>
+                        .container {
+                            max-width: 500px;
+                            margin: 0 auto;
+                            padding: 20px;
+                            border: 1px solid #ccc;
+                            border-radius: 5px;
+                            background-color: #f9f9f9;
+                        }
+
+                        h2 {
+                            text-align: center;
+                            margin-bottom: 20px;
+                        }
+
+                        .form-group {
+                            margin-bottom: 15px;
+                        }
+
+                        label {
+                            display: block;
+                            font-weight: bold;
+                        }
+
+                        input[type="text"],
+                        input[type="email"],
+                        input[type="date"],
+                        input[type="time"],
+                        select {
+                            width: 100%;
+                            padding: 10px;
+                            border: 1px solid #ccc;
+                            border-radius: 5px;
+                            box-sizing: border-box;
+                        }
+
+                        input[type="submit"] {
+                            width: 100%;
+                            padding: 10px;
+                            border: none;
+                            border-radius: 5px;
+                            background-color: #007bff;
+                            color: #fff;
+                            font-size: 16px;
+                            cursor: pointer;
+                        }
+
+                        input[type="submit"]:hover {
+                            background-color: #0056b3;
+                        }
+                    </style>
+
+                    <form action="process_create_appointment.php" method="post">
+                        <div class="form-group">
+                            <label for="name">Name:</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email:</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone:</label>
+                            <input type="text" id="phone" name="phone" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="date">Appointment Date:</label>
+                            <input type="date" id="date" name="appointment_date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="time">Appointment Time:</label>
+                            <input type="time" id="time" name="appointment_time" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="type">Appointment Type:</label>
+                            <select id="type" name="appointment_type" required>
+                                <option value="">Select Type</option>
+                                <option value="Regular">Regular</option>
+                                <option value="Urgent">Urgent</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="section">Section:</label>
+                            <input type="text" id="section" name="section" required>
+                        </div>
+                        <input type="submit" value="Book Appointment">
+                    </form>
+                </div>
+
+            </div>
+
+
             <!-- HTML/JS for Upload Prescription Section -->
-            <div id="uploadPrescriptionContent" class="content">
+            <div id="uploadPrescriptionContent" class="content" style="display: none;">
                 <h2>Upload Prescription</h2>
-                <form action="upload_prescription.php" method="post" id="prescriptionForm" enctype="multipart/form-data">
+                <form action="upload_prescription.php" method="post" id="prescriptionForm"
+                    enctype="multipart/form-data">
                     <div>
                         <label for="note">Note:</label>
                         <textarea id="note" name="note"></textarea>
@@ -160,7 +344,7 @@ $dashboardManager->closeConnection();
             <div id="viewPrescriptionsContent" class="content" style="display: none;">
                 <!-- View prescriptions content goes here -->
             </div>
-            
+
             <div id="quotationsContent" class="content" style="display: none;">
                 <div>
                     <h2>Quotation Details</h2>
@@ -187,6 +371,91 @@ $dashboardManager->closeConnection();
                     ?>
                 </div>
             </div>
+
+            <div id="inquiriesContent" class="content"style="display: none;" >
+    <h2>Inquiries</h2>
+    <hr>
+    <div class="container">
+        <h2>Submit Inquiry</h2>
+        <style>
+            .container {
+                max-width: 500px;
+                margin: 0 auto;
+                padding: 20px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                background-color: #f9f9f9;
+            }
+
+            h2 {
+                text-align: center;
+                margin-bottom: 20px;
+            }
+
+            .form-group {
+                margin-bottom: 15px;
+            }
+
+            label {
+                display: block;
+                font-weight: bold;
+            }
+
+            input[type="text"],
+            input[type="email"],
+            textarea {
+                width: 100%;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                box-sizing: border-box;
+            }
+
+            textarea {
+                height: 150px;
+            }
+
+            input[type="submit"] {
+                width: 100%;
+                padding: 10px;
+                border: none;
+                border-radius: 5px;
+                background-color: #007bff;
+                color: #fff;
+                font-size: 16px;
+                cursor: pointer;
+            }
+
+            input[type="submit"]:hover {
+                background-color: #0056b3;
+            }
+        </style>
+
+        <form action="process_inquiry.php" method="post">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="subject">Subject:</label>
+                <input type="text" id="subject" name="subject" required>
+            </div>
+            <div class="form-group">
+                <label for="message">Message:</label>
+                <textarea id="message" name="message" required></textarea>
+            </div>
+            <input type="submit" value="Submit Inquiry">
+        </form>
+    </div>
+</div>
+
+
+
+
         </div>
     </div>
 
@@ -244,29 +513,30 @@ $dashboardManager->closeConnection();
                 method: 'POST',
                 body: formData
             })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.text();
-            })
-            .then(message => {
-                console.log(message);
-                if (status === 'Accepted') {
-                    document.getElementById(`acceptButton_${quotationId}`).innerHTML = 'Accepted';
-                    document.getElementById(`rejectButton_${quotationId}`).innerHTML = 'Reject';
-                    alert('Quotation accepted successfully.');
-                } else if (status === 'Rejected') {
-                    document.getElementById(`rejectButton_${quotationId}`).innerHTML = 'Rejected';
-                    document.getElementById(`acceptButton_${quotationId}`).innerHTML = 'Accept';
-                    alert('Quotation rejected successfully.');
-                }
-            })
-            .catch(error => {
-                console.error('Error updating quotation status:', error);
-                alert('Error updating quotation status. Please try again later.');
-            });
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.text();
+                })
+                .then(message => {
+                    console.log(message);
+                    if (status === 'Accepted') {
+                        document.getElementById(`acceptButton_${quotationId}`).innerHTML = 'Accepted';
+                        document.getElementById(`rejectButton_${quotationId}`).innerHTML = 'Reject';
+                        alert('Quotation accepted successfully.');
+                    } else if (status === 'Rejected') {
+                        document.getElementById(`rejectButton_${quotationId}`).innerHTML = 'Rejected';
+                        document.getElementById(`acceptButton_${quotationId}`).innerHTML = 'Accept';
+                        alert('Quotation rejected successfully.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error updating quotation status:', error);
+                    alert('Error updating quotation status. Please try again later.');
+                });
         }
     </script>
 </body>
+
 </html>
