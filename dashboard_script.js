@@ -1,28 +1,43 @@
 // Function to display user profile details
-function showProfile() {
-    fetch('fetch_user_data.php')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(profile => {
-            const profileDetails = document.getElementById("profileContent");
-            profileDetails.innerHTML = `
-                <p>Name         : ${profile.name}</p>
-                <p>Email        : ${profile.email}</p>
-                <p>Address      : ${profile.address}</p>
-                <p>Contact      : ${profile.contact}</p>
-                <p>Date of Birth: ${profile.dob}</p>
-                <!-- Add more profile fields here -->
-            `;
-        })
-        .catch(error => {
-            console.error('Error fetching profile details:', error);
-            // Display an error message to the user
-            alert('Error fetching profile details. Please try again later.');
-        });
+function showPatient() {
+    showContent("profileContent");
+}
+
+function showAppointments() {
+    document.getElementById("appointmentsContent").style.display = "block";
+    showContent("appointmentsContent");
+
+}
+function showUploadPrescription() {
+    document.getElementById("uploadPrescriptionContent").style.display = "block";
+    document.getElementById("appointmentsContent").style.display = "none";
+    hideAllContent();
+
+}
+
+
+function showInquiries() {
+    document.getElementById("inquiriesContent").style.display = "block";
+    showContent("inquiriesContent");
+
+}
+
+
+
+function showContent(contentId) {
+    // Hide all content sections
+    var contents = document.querySelectorAll(".content");
+    contents.forEach(function(content) {
+        content.style.display = "none";
+    });
+
+    // Show the selected content section
+    var selectedContent = document.getElementById(contentId);
+    if (selectedContent) {
+        selectedContent.style.display = "block";
+    } else {
+        console.error("Content section not found:", contentId);
+    }
 }
 
 // Function to display prescriptions
@@ -84,7 +99,7 @@ function showLogout() {
                 throw new Error('Logout request failed');
             }
             // Redirect to login page after logout
-            window.location.href = 'index.php';
+            window.location.href = 'login.html';
         })
         .catch(error => {
             console.error('Error logging out:', error);
@@ -99,6 +114,7 @@ function hideAllContent() {
     document.getElementById("uploadPrescriptionContent").style.display = "none";
     document.getElementById("viewPrescriptionsContent").style.display = "none";
     document.getElementById("quotationsContent").style.display = "none";
+    document.getElementById("appointmentsContent").style.display = "none";
 }
 
 
