@@ -8,7 +8,27 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 // Include database connection
-include_once "db_connection.php";
+require_once "db_connection.php";
+
+class User {
+    private $pdo;
+
+    public function __construct($pdo) {
+        $this->pdo = $pdo;
+    }
+
+    public function updateUser($name, $email, $address, $contact, $dob, $userId) {
+        $sql = "UPDATE users SET name = :name, email = :email, address = :address, contact = :contact, dob = :dob WHERE id = :user_id";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindParam(":name", $name, PDO::PARAM_STR);
+        $stmt->bindParam(":email", $email, PDO::PARAM_STR);
+        $stmt->bindParam(":address", $address, PDO::PARAM_STR);
+        $stmt->bindParam(":contact", $contact, PDO::PARAM_STR);
+        $stmt->bindParam(":dob", $dob, PDO::PARAM_STR);
+        $stmt->bindParam(":user_id", $userId, PDO::PARAM_INT);
+        $stmt->execute();
+    }
+}
 
 // Get user input
 $name = $_POST['name'];
@@ -18,18 +38,12 @@ $contact = $_POST['contact'];
 $dob = $_POST['dob'];
 
 // Get user ID from session
-$user_id = $_SESSION['user_id'];
+$userId = $_SESSION['user_id'];
 
+// Instantiate User class
+$user = new User($pdo);
 // Update user data in the database
-$sql = "UPDATE users SET name = :name, email = :email, address = :address, contact = :contact, dob = :dob WHERE id = :user_id";
-$stmt = $pdo->prepare($sql);
-$stmt->bindParam(":name", $name, PDO::PARAM_STR);
-$stmt->bindParam(":email", $email, PDO::PARAM_STR);
-$stmt->bindParam(":address", $address, PDO::PARAM_STR);
-$stmt->bindParam(":contact", $contact, PDO::PARAM_STR);
-$stmt->bindParam(":dob", $dob, PDO::PARAM_STR);
-$stmt->bindParam(":user_id", $user_id, PDO::PARAM_INT);
-$stmt->execute();
+$user->updateUser($name, $email, $address, $contact, $dob, $userId);
 
 // Redirect back to profile page
 header("location: userdashboard.php");
