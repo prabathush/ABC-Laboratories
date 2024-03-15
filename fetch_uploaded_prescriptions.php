@@ -49,6 +49,6 @@ if ($result->num_rows > 0) {
     echo json_encode(array()); // Return an empty array if no prescriptions found
 }
 
-// Close database connection
+// Closing database connection
 $conn->close();
 ?>
