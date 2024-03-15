@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $servername = "localhost";
     $username = "root";
     $password = "";
-    $dbname = "xiteb";
+    $dbname = "abc laboratories";
 
     // Create connection
     $conn = new mysqli($servername, $username, $password, $dbname);
