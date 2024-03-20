@@ -22,14 +22,14 @@ class AdminDashboard
     {
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
             // Check if a delete request is made
-            if (isset($_POST['delete_id'])) {
+            if (isset ($_POST['delete_id'])) {
                 $this->testDetailsObj->deleteTestDetail($_POST['delete_id']);
             }
             // Handle form submission
             $this->handleFormSubmission();
         }
 
-        if (isset($_GET['action']) && $_GET['action'] === 'addTestDetails') {
+        if (isset ($_GET['action']) && $_GET['action'] === 'addTestDetails') {
             // Display the creation form for adding test details
             $this->renderAddTestDetailsForm();
         }
@@ -47,11 +47,12 @@ class AdminDashboard
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Admin Dashboard</title>
             <link rel="stylesheet" href="CSS/dashboard.css">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
             <style>
                 .create-form {
                     max-width: 800px;
                     margin: 0 auto;
-                    background-color: #f9f9f9;
+                    background-color: white;
                     padding: 20px;
                     border-radius: 10px;
                     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -136,18 +137,22 @@ class AdminDashboard
         <body>
             <div class="dashboard">
                 <nav class="sidebar">
-                    <h2>Admin Dashboard</h2>
+                <img src="logo.png" alt="Your Logo" style="width: 100%; max-width: 200px; margin-bottom: 20px;">
+
+                <header style="text-align: left;">
+    <h1>&nbsp;&nbsp;admin</h1>
+</header>
+
                     <hr>
                     <ul>
-                        <li><a href="#" onclick="manageTestDetails()"> Test Details</a></li>
-                        <li><a href="#" onclick="manageInquiries()"> Inquiries</a></li>
-                        <li><a href="#" onclick="manageLabTechnicians()"> Lab Technicians</a></li>
-                        <li><a href="#" onclick="manageAppointments()"> Appointments</a></li>
-                        <li><a href="#" onclick="manageTestResults()"> Test Results</a></li>
-                        <li><a href="#" onclick="managePatients()"> Patients</a></li>
-                        
-                        <li><a href="#" onclick="viewAnalytics()">Analytics</a></li>
-                    </ul>
+    <li><a href="#" onclick="manageTestDetails()"><i class="fas fa-vial"></i> &nbsp;&nbsp;&nbsp;&nbsp;Test Details</a></li>
+    <li><a href="#" onclick="manageInquiries()"><i class="fas fa-comments"></i> &nbsp;&nbsp;&nbsp;&nbsp;Inquiries</a></li>
+    <li><a href="#" onclick="manageLabTechnicians()"><i class="fas fa-flask"></i>&nbsp;&nbsp; &nbsp;&nbsp;Lab Technicians</a></li>
+    <li><a href="#" onclick="manageAppointments()"><i class="fas fa-calendar-alt"></i> &nbsp;&nbsp;&nbsp;&nbsp;Appointments</a></li>
+    <li><a href="#" onclick="managePatients()"><i class="fas fa-user"></i> &nbsp;&nbsp;&nbsp;&nbsp;Patients</a></li>
+    <li><a href="#" onclick="viewAnalytics()"><i class="fas fa-chart-line"></i> &nbsp;&nbsp;&nbsp;&nbsp;Analytics</a></li>
+</ul>
+
                 </nav>
                 <div class="main">
                     <header>
@@ -204,49 +209,49 @@ class AdminDashboard
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
-                        </table>
+                        </table><br><br>
                         <!-- Add Test Detail form -->
-                        <h2>Add Test Detail</h2>
-                        <form class="create-form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="test_name">Test Name:</label>
-                                    <input type="text" id="test_name" name="test_name" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="test_type">Test Type:</label>
-                                    <input type="text" id="test_type" name="test_type" required>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="description">Description:</label>
-                                    <textarea id="description" name="description" required></textarea>
-                                </div>
+                        <h2 style="margin-bottom: 20px;"><i class="fas fa-plus-circle" style="margin-right: 10px;"></i> Add Test Detail</h2>
+<form class="create-form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" style="max-width: 600px; margin: 0 auto;">
+    <div class="form-row" style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+        <div class="form-group" style="flex-basis: 48%;">
+            <label for="test_name" style="display: block;"><i class="fas fa-pencil-alt" style="margin-right: 10px;"></i> Test Name:</label>
+            <input type="text" id="test_name" name="test_name" required style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+        </div>
+        <div class="form-group" style="flex-basis: 48%;">
+            <label for="test_type" style="display: block;"><i class="fas fa-flask" style="margin-right: 10px;"></i> Test Type:</label>
+            <input type="text" id="test_type" name="test_type" required style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+        </div>
+    </div>
+    <div class="form-row" style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+        <div class="form-group" style="flex-basis: 48%;">
+            <label for="description" style="display: block;"><i class="fas fa-info-circle" style="margin-right: 10px;"></i> Description:</label>
+            <textarea id="description" name="description" required style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc;"></textarea>
+        </div>
+        <div class="form-group" style="flex-basis: 48%;">
+            <label for="preparation_instructions" style="display: block;"><i class="fas fa-clipboard-list" style="margin-right: 10px;"></i> Preparation Instructions:</label>
+            <textarea id="preparation_instructions" name="preparation_instructions" required style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc;"></textarea>
+        </div>
+    </div>
+    <div class="form-row" style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+        <div class="form-group" style="flex-basis: 48%;">
+            <label for="sample_type" style="display: block;"><i class="fas fa-vial" style="margin-right: 10px;"></i> Sample Type:</label>
+            <input type="text" id="sample_type" name="sample_type" required style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+        </div>
+        <div class="form-group" style="flex-basis: 48%;">
+            <label for="normal_range" style="display: block;"><i class="fas fa-chart-line" style="margin-right: 10px;"></i> Normal Range:</label>
+            <input type="text" id="normal_range" name="normal_range" required style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+        </div>
+    </div>
+    <div class="form-row" style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+        <div class="form-group" style="flex-basis: 100%;">
+            <label for="price" style="display: block;"><i class="fas fa-dollar-sign" style="margin-right: 10px;"></i> Price:</label>
+            <input type="number" id="price" name="price" required style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+        </div>
+    </div>
+    <button type="submit" name="submit" class="submit-btn" style="background-color: #007bff; color: #fff; border: none; border-radius: 5px; padding: 10px 20px; cursor: pointer;"><i class="fas fa-check-circle" style="margin-right: 10px;"></i> Submit</button>
+</form>
 
-                                <div class="form-group">
-                                    <label for="preparation_instructions">Preparation Instructions:</label>
-                                    <textarea id="preparation_instructions" name="preparation_instructions" required></textarea>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="sample_type">Sample Type:</label>
-                                    <input type="text" id="sample_type" name="sample_type" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="normal_range">Normal Range:</label>
-                                    <input type="text" id="normal_range" name="normal_range" required>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="price">Price:</label>
-                                    <input type="number" id="price" name="price" required>
-                                </div>
-                            </div>
-                            <button type="submit" name="submit" class="submit-btn">Submit</button>
-                        </form>
                     </div>
 
                     <div id="inquiriesContent" class="content" style="display: none; ">
@@ -286,7 +291,7 @@ class AdminDashboard
                                             <?= $inquiry['status'] ?>
                                         </td>
                                         <td>
-                                            <a href="admin_respond.php?id=<?= $inquiry['id'] ?>" class="respond-btn">Respond</a>
+                                            <a href="respond.php?id=<?= $inquiry['id'] ?>" class="respond-btn">Respond</a>
                                             <a href="admin_delete_inquiry.php?id=<?= $inquiry['id'] ?>"
                                                 class="delete-btn">Delete</a>
                                         </td>
@@ -299,81 +304,81 @@ class AdminDashboard
 
 
                     <div class="content" id="appointmentsContent" style="display: none;">
-    <h2>Appointments</h2>
-    
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Appointment Date</th>
-                <th>Appointment Time</th>
-                <th>Appointment Type</th>
-                <th>Section</th>
-                <th>Created At</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-            $host = "localhost";
-            $dbname = "abc laboratories";
-            $username = "root";
-            $password = ""; // Replace with your actual database password
+                        <h2>Appointments</h2>
 
-            try {
-                // Establish a database connection
-                $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
-                // Set PDO error mode to exception
-                $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            } catch (PDOException $e) {
-                // Display error message if connection fails
-                die("Connection failed: " . $e->getMessage());
-            }
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Appointment Date</th>
+                                    <th>Appointment Time</th>
+                                    <th>Appointment Type</th>
+                                    <th>Section</th>
+                                    <th>Created At</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $host = "localhost";
+                                $dbname = "abc laboratories";
+                                $username = "root";
+                                $password = ""; // Replace with your actual database password
+                        
+                                try {
+                                    // Establish a database connection
+                                    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
+                                    // Set PDO error mode to exception
+                                    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                                } catch (PDOException $e) {
+                                    // Display error message if connection fails
+                                    die ("Connection failed: " . $e->getMessage());
+                                }
 
-            $sql = "SELECT * FROM appointments";
-            $result = $pdo->query($sql);
-            while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
-                echo "<tr>";
-                echo "<td>{$row['ID']}</td>";
-                echo "<td>{$row['name']}</td>";
-                echo "<td>{$row['email']}</td>";
-                echo "<td>{$row['phone']}</td>";
-                echo "<td>{$row['appointment_date']}</td>";
-                echo "<td>{$row['appointment_time']}</td>";
-                echo "<td>{$row['appointment_type']}</td>";
-                echo "<td>{$row['section']}</td>";
-                echo "<td>{$row['created_at']}</td>";
-                echo "<td><a href='admin_edit_appointment.php?id={$row['ID']}' class='edit-btn'>Edit</a> <a href='admin_delete_appointment.php?id={$row['ID']}' class='delete-btn'>Delete</a></td>";
-                echo "</tr>";
-            }
-            ?>
-        </tbody>
-    </table>
+                                $sql = "SELECT * FROM appointments";
+                                $result = $pdo->query($sql);
+                                while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+                                    echo "<tr>";
+                                    echo "<td>{$row['ID']}</td>";
+                                    echo "<td>{$row['name']}</td>";
+                                    echo "<td>{$row['email']}</td>";
+                                    echo "<td>{$row['phone']}</td>";
+                                    echo "<td>{$row['appointment_date']}</td>";
+                                    echo "<td>{$row['appointment_time']}</td>";
+                                    echo "<td>{$row['appointment_type']}</td>";
+                                    echo "<td>{$row['section']}</td>";
+                                    echo "<td>{$row['created_at']}</td>";
+                                    echo "<td><a href='admin_edit_appointment.php?id={$row['ID']}' class='edit-btn'>Edit</a> <a href='admin_delete_appointment.php?id={$row['ID']}' class='delete-btn'>Delete</a></td>";
+                                    echo "</tr>";
+                                }
+                                ?>
+                            </tbody>
+                        </table>
 
-    <div class="container">
-        <h2>Create Appointment</h2>
-        <form action="admin_create_appointment.php" method="post">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required><br><br>
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required><br><br>
-            <label for="phone">Phone:</label>
-            <input type="text" id="phone" name="phone" required><br><br>
-            <label for="appointment_date">Appointment Date:</label>
-            <input type="date" id="appointment_date" name="appointment_date" required><br><br>
-            <label for="appointment_time">Appointment Time:</label>
-            <input type="time" id="appointment_time" name="appointment_time" required><br><br>
-            <label for="appointment_type">Appointment Type:</label>
-            <input type="text" id="appointment_type" name="appointment_type" required><br><br>
-            <label for="section">Section:</label>
-            <input type="text" id="section" name="section" required><br><br>
-            <input type="submit" value="Create Appointment">
-        </form>
-    </div>
-</div>
+                        <div class="container">
+                            <h2>Create Appointment</h2>
+                            <form action="admin_create_appointment.php" method="post">
+                                <label for="name">Name:</label>
+                                <input type="text" id="name" name="name" required><br><br>
+                                <label for="email">Email:</label>
+                                <input type="email" id="email" name="email" required><br><br>
+                                <label for="phone">Phone:</label>
+                                <input type="text" id="phone" name="phone" required><br><br>
+                                <label for="appointment_date">Appointment Date:</label>
+                                <input type="date" id="appointment_date" name="appointment_date" required><br><br>
+                                <label for="appointment_time">Appointment Time:</label>
+                                <input type="time" id="appointment_time" name="appointment_time" required><br><br>
+                                <label for="appointment_type">Appointment Type:</label>
+                                <input type="text" id="appointment_type" name="appointment_type" required><br><br>
+                                <label for="section">Section:</label>
+                                <input type="text" id="section" name="section" required><br><br>
+                                <input type="submit" value="Create Appointment">
+                            </form>
+                        </div>
+                    </div>
 
 
 
@@ -474,7 +479,7 @@ class AdminDashboard
                                         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                                     } catch (PDOException $e) {
                                         // Display error message if connection fails
-                                        die("Connection failed: " . $e->getMessage());
+                                        die ("Connection failed: " . $e->getMessage());
                                     }
 
                                     $sql = "SELECT * FROM users";
@@ -533,7 +538,7 @@ class AdminDashboard
                         </div>
                     </div>
 
-                    <div class="content" id="labTechniciansContent"  style="display: none;">
+                    <div class="content" id="labTechniciansContent" style="display: none;">
                         <h2>Technicians</h2>
                         <table>
                             <thead>
@@ -550,38 +555,38 @@ class AdminDashboard
                                 </tr>
                             </thead>
                             <tbody>
-                            <?php
-            $host = "localhost";
-            $dbname = "abc laboratories";
-            $username = "root";
-            $password = ""; // Replace with your actual database password
+                                <?php
+                                $host = "localhost";
+                                $dbname = "abc laboratories";
+                                $username = "root";
+                                $password = ""; // Replace with your actual database password
+                        
+                                try {
+                                    // Establish a database connection
+                                    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
+                                    // Set PDO error mode to exception
+                                    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                                } catch (PDOException $e) {
+                                    // Display error message if connection fails
+                                    die ("Connection failed: " . $e->getMessage());
+                                }
 
-            try {
-                // Establish a database connection
-                $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
-                // Set PDO error mode to exception
-                $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            } catch (PDOException $e) {
-                // Display error message if connection fails
-                die("Connection failed: " . $e->getMessage());
-            }
-
-            $sql = "SELECT * FROM technicians";
-            $result = $pdo->query($sql);
-            while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
-                echo "<tr>";
-                echo "<td>{$row['id']}</td>";
-                echo "<td>{$row['name']}</td>";
-                echo "<td>{$row['email']}</td>";
-                echo "<td>{$row['address']}</td>";
-                echo "<td>{$row['phone']}</td>";
-                echo "<td>{$row['qualification']}</td>";
-                echo "<td>{$row['experience']}</td>";
-                echo "<td>{$row['specialization']}</td>";
-                echo "<td><a href='admin_edit_lab_technician.php?id={$row['id']}' class='edit-btn'>Edit</a> <a href='admin_delete_lab_technician.php?id={$row['id']}' class='delete-btn'>Delete</a></td>";
-                echo "</tr>";
-            }
-            ?>
+                                $sql = "SELECT * FROM technicians";
+                                $result = $pdo->query($sql);
+                                while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+                                    echo "<tr>";
+                                    echo "<td>{$row['id']}</td>";
+                                    echo "<td>{$row['name']}</td>";
+                                    echo "<td>{$row['email']}</td>";
+                                    echo "<td>{$row['address']}</td>";
+                                    echo "<td>{$row['phone']}</td>";
+                                    echo "<td>{$row['qualification']}</td>";
+                                    echo "<td>{$row['experience']}</td>";
+                                    echo "<td>{$row['specialization']}</td>";
+                                    echo "<td><a href='admin_edit_lab_technician.php?id={$row['id']}' class='edit-btn'>Edit</a> <a href='admin_delete_lab_technician.php?id={$row['id']}' class='delete-btn'>Delete</a></td>";
+                                    echo "</tr>";
+                                }
+                                ?>
                             </tbody>
                         </table>
 
@@ -612,6 +617,25 @@ class AdminDashboard
 
 
 
+
+                    <div id="analyticsContent" class="content" style="display: none; ">
+                        <h2>Manage Analytics</h2>
+                        <!-- Inquiry table goes here -->
+                        <!-- Example button to generate patient data PDF -->
+                        <div style="max-width: 800px; margin: 0 auto; background-color: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+        <a href="fetch_patient_data.php" style="display: inline-block; padding: 10px 40px; margin-bottom: 10px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px; transition: background-color 0.3s ease;" target="_blank">Generate Patient Data PDF</a><br>
+        <a href="appointment_data_pdf.php" style="display: inline-block; padding: 10px 20px; margin-bottom: 10px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px; transition: background-color 0.3s ease;" target="_blank">Generate Appointment Data PDF</a>
+    </div>
+
+
+                        
+                    </div>
+
+
+
+
+
+
                 </div>
 
             </div>
@@ -633,13 +657,13 @@ class AdminDashboard
     private function handleFormSubmission()
     {
         // Collect form data
-        $testName = $_POST['test_name'] ?? '';
-        $testType = $_POST['test_type'] ?? '';
-        $description = $_POST['description'] ?? '';
-        $normalRange = $_POST['normal_range'] ?? '';
-        $sampleType = $_POST['sample_type'] ?? '';
-        $price = $_POST['price'] ?? '';
-        $preparationInstructions = $_POST['preparation_instructions'] ?? '';
+        $testName = $_POST['test_name'];
+        $testType = $_POST['test_type'];
+        $description = $_POST['description'];
+        $normalRange = $_POST['normal_range'];
+        $sampleType = $_POST['sample_type'];
+        $price = $_POST['price'];
+        $preparationInstructions = $_POST['preparation_instructions'];
 
         // Add test detail
         $result = $this->testDetailsObj->addTestDetail($testName, $testType, $description, $normalRange, $sampleType, $price, $preparationInstructions);
