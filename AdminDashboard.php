@@ -151,6 +151,7 @@ class AdminDashboard
     <li><a href="#" onclick="manageAppointments()"><i class="fas fa-calendar-alt"></i> &nbsp;&nbsp;&nbsp;&nbsp;Appointments</a></li>
     <li><a href="#" onclick="managePatients()"><i class="fas fa-user"></i> &nbsp;&nbsp;&nbsp;&nbsp;Patients</a></li>
     <li><a href="#" onclick="viewAnalytics()"><i class="fas fa-chart-line"></i> &nbsp;&nbsp;&nbsp;&nbsp;Analytics</a></li>
+    <li><a href="admin_login.php" ><i class="fas fa-sign-out-alt"></i> &nbsp;&nbsp;&nbsp;&nbsp;Logout</a></li>
 </ul>
 
                 </nav>
