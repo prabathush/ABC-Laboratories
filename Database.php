@@ -72,13 +72,13 @@ class Database {
         // Execute the query
         $stmt->execute();
 
-        // Get the result
+        // Get result
         $result = $stmt->get_result();
 
         // Fetch appointment details as associative array
         $appointmentDetails = $result->fetch_assoc();
 
-        // Close the statement
+        // Close statement
         $stmt->close();
 
         return $appointmentDetails;
