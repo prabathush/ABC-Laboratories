@@ -27,7 +27,8 @@ class UserRegistration {
         $result = $stmt->get_result();
         if ($result->num_rows > 0) {
             // Email already exists, show alert message and return false
-            echo "<script>alert('Email address already exists. Please use a different email.'); console.log('Alert shown.'); window.location.href = 'user_register.php';</script>";
+            echo "<script>alert('Email address already exists. Please use a different email.'); console.log('Alert shown.');
+            window.location.href = 'user_register.php';</script>";
             exit();
         }
     
@@ -86,25 +87,25 @@ class UserRegistration {
         
         // Build the email body with company logo, credentials, and a personalized message
         $emailBody = '<html><body>';
-        $emailBody .= '<div style="background-color: #f4f4f4; padding: 20px;">';
-        // $emailBody .= '<img src="https://example.com/logo.png" alt="ABC Laboratories Logo" style="max-width: 200px; margin-bottom: 20px;">';
-        $emailBody .= '<h1 style="color: #004d99; font-size: 24px; margin-bottom: 20px;text-align: center;">Welcome to ABC Laboratories!</h1>';
-        $emailBody .= '<p style="margin-bottom: 20px;">Dear ' . $name . ',</p>';
-        $emailBody .= '<p style="margin-bottom: 20px;">We are pleased to inform you that your account has been successfully registered with ABC Laboratories.</p>';
-        $emailBody .= '<p style="margin-bottom: 20px;">Your account details:</p>';
-        $emailBody .= '<ul style="margin-bottom: 20px;">';
-        $emailBody .= '<li><strong>Email:</strong> ' . $email . '</li>';
-        $emailBody .= '<li><strong>Password:</strong> ' . $password . '</li>';
-        $emailBody .= '</ul>';
-        $emailBody .= '<p style="margin-bottom: 20px;">Thank you for choosing ABC Laboratories for your healthcare needs.</p>';
-        $emailBody .= '<p style="margin-bottom: 20px;">Best regards,<br>ABC Laboratories Team</p>';
-        $emailBody .= '</div>';
-        $emailBody .= '<p style="font-size: 12px; color: #777777; text-align: center; margin-top: 20px;">';
-        $emailBody .= 'This email is confidential and intended solely for the use of the individual to whom it is addressed. ';
-        $emailBody .= 'If you have received this email in error, please notify us immediately and delete it from your system.<br> ';
-        $emailBody .= 'Copyright © ' . date("Y") . ' ABC Laboratories. All rights reserved.';
-        $emailBody .= '</p>';
-        $emailBody .= '</body></html>';
+$emailBody .= '<div style="background-color: #f4f4f4; padding: 20px;">';
+$emailBody .= '<h1 style="color: #004d99; font-size: 24px; margin-bottom: 20px;text-align: center;">Welcome to ABC Laboratories!</h1>';
+$emailBody .= '<p style="margin-bottom: 20px;">Dear ' . $name . ',</p>';
+$emailBody .= '<p style="margin-bottom: 20px;">We are excited to have you join us at ABC Laboratories, where we are dedicated to delivering top-quality healthcare solutions tailored to your needs.</p>';
+$emailBody .= '<p style="margin-bottom: 20px;">We are pleased to confirm that your account registration with ABC Laboratories has been successfully completed. Below are your account details:</p>';
+$emailBody .= '<ul style="margin-bottom: 20px;">';
+$emailBody .= '<li><strong>Email:</strong> ' . $email . '</li>';
+$emailBody .= '<li><strong>Password:</strong> ' . $password . '</li>';
+$emailBody .= '</ul>';
+$emailBody .= '<p style="margin-bottom: 20px;">Thank you for selecting ABC Laboratories for your healthcare requirements. We are committed to providing you with the highest standard of care and service.</p>';
+$emailBody .= '<p style="margin-bottom: 20px;">If you have any inquiries or need assistance, please feel free to reach out to us. Our dedicated team is here to support you every step of the way.</p>';
+$emailBody .= '<p style="margin-bottom: 20px;">Best regards,<br>ABC Laboratories Team</p>';
+$emailBody .= '</div>';
+$emailBody .= '<p style="font-size: 12px; color: #777777; text-align: center; margin-top: 20px;">';
+$emailBody .= 'This email contains confidential information and is intended only for the recipient named above. If you have received this email in error, please notify us immediately and delete it from your system.<br>';
+$emailBody .= 'Copyright © ' . date("Y") . ' ABC Laboratories. All rights reserved.';
+$emailBody .= '</p>';
+$emailBody .= '</body></html>';
+
 
         $mail->Body= $emailBody;
 
