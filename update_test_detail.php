@@ -6,14 +6,14 @@ $testDetailsObj = new TestDetails();
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Collect form data
-    $testId = $_POST['id'] ?? '';
-    $testName = $_POST['test_name'] ?? '';
-    $testType = $_POST['test_type'] ?? '';
-    $description = $_POST['description'] ?? '';
-    $normalRange = $_POST['normal_range'] ?? '';
-    $sampleType = $_POST['sample_type'] ?? '';
-    $price = $_POST['price'] ?? '';
-    $preparationInstructions = $_POST['preparation_instructions'] ?? '';
+    $testId = $_POST['id'] ;
+    $testName = $_POST['test_name'] ;
+    $testType = $_POST['test_type'] ;
+    $description = $_POST['description'] ;
+    $normalRange = $_POST['normal_range'] ;
+    $sampleType = $_POST['sample_type'] ;
+    $price = $_POST['price'] ;
+    $preparationInstructions = $_POST['preparation_instructions'] ;
 
     // Update test detail
     $result = $testDetailsObj->updateTestDetail($testId, $testName, $testType, $description, $normalRange, $sampleType, $price, $preparationInstructions);
