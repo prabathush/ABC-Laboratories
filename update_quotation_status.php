@@ -1,5 +1,6 @@
 <?php
 // Start session
+include 'fetch_quotations_php';
 session_start();
 
 class QuotationStatusUpdater {
@@ -57,8 +58,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $dbname = "abc laboratories";
 
     // Get quotation ID and new status from the POST request
-    $quotationId = $_POST['quotationId'] ?? '';
-    $status = $_POST['status'] ?? '';
+    $quotationId = $_POST['quotationId'] ;
+    $status = $_POST['status'] ;
 
     // Create instance of QuotationStatusUpdater
     $quotationStatusUpdater = new QuotationStatusUpdater($servername, $username, $password, $dbname);
