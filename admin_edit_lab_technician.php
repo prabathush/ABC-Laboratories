@@ -136,19 +136,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <h2>Edit Lab Technician</h2>
         <form action="admin_edit_lab_technician.php?id=<?= $technicianId ?>" method="post">
             <label for="name">Name:</label>
-            <input type="text" id="name" name="name" value="<?= $technician['name'] ?? '' ?>" required><br>
+            <input type="text" id="name" name="name" value="<?= $technician['name'] ?>" required><br>
             <label for="email">Email:</label>
-            <input type="email" id="email" name="email" value="<?= $technician['email'] ?? '' ?>" required><br>
+            <input type="email" id="email" name="email" value="<?= $technician['email'] ?>" required><br>
             <label for="phone">Phone:</label>
-            <input type="text" id="phone" name="phone" value="<?= $technician['phone'] ?? '' ?>" required><br>
+            <input type="text" id="phone" name="phone" value="<?= $technician['phone']  ?>" required><br>
             <label for="address">Address:</label>
-            <input type="text" id="address" name="address" value="<?= $technician['address'] ?? '' ?>" required><br>
+            <input type="text" id="address" name="address" value="<?= $technician['address'] ?>" required><br>
             <label for="qualification">Qualification:</label>
-            <input type="text" id="qualification" name="qualification" value="<?= $technician['qualification'] ?? '' ?>" required><br>
+            <input type="text" id="qualification" name="qualification" value="<?= $technician['qualification'] ?>" required><br>
             <label for="experience">Experience:</label>
-            <input type="text" id="experience" name="experience" value="<?= $technician['experience'] ?? '' ?>" required><br>
+            <input type="text" id="experience" name="experience" value="<?= $technician['experience'] ?>" required><br>
             <label for="specialization">Specialization:</label>
-            <input type="text" id="specialization" name="specialization" value="<?= $technician['specialization'] ?? '' ?>" required><br>
+            <input type="text" id="specialization" name="specialization" value="<?= $technician['specialization'] ?>" required><br>
             <input type="submit" value="Update Technician">
         </form>
     </div>
