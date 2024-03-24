@@ -80,9 +80,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $prescriptionManager = new PrescriptionManager($servername, $username, $password, $dbname);
 
     // Get form data
-    $note = $_POST['note'] ?? '';
-    $deliveryAddress = $_POST['deliveryAddress'] ?? '';
-    $deliveryTime = $_POST['deliveryTime'] ?? '';
+    $note = $_POST['note'] ;
+    $deliveryAddress = $_POST['deliveryAddress'] ;
+    $deliveryTime = $_POST['deliveryTime'] ;
     $userId = $_SESSION['user_id'];
 
     // Insert prescription
