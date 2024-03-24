@@ -9,9 +9,13 @@ function showAppointments() {
 
 }
 function showUploadPrescription() {
+    document.getElementById("profileContent").style.display = "none";
     document.getElementById("uploadPrescriptionContent").style.display = "block";
+    document.getElementById("viewPrescriptionsContent").style.display = "none";
+    document.getElementById("quotationsContent").style.display = "none";
     document.getElementById("appointmentsContent").style.display = "none";
-    hideAllContent();
+    document.getElementById("inquiriesContent").style.display = "none";
+    document.getElementById("testresultsContent").style.display = "none";
 
 }
 
@@ -21,6 +25,62 @@ function showInquiries() {
     showContent("inquiriesContent");
 
 }
+
+function showTestresults() {
+    hideAllContent();
+    document.getElementById("testresultsContent").style.display = "block";
+
+    fetch('fetch_test_results.php') // Replace 'fetch_test_results.php' with your server-side script URL
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(testResults => {
+            if (testResults.length > 0) {
+                const testResultsTable = document.createElement('table');
+                testResultsTable.innerHTML = `
+                    <thead>
+                        <tr>
+                            <th>Test Name</th>
+                            <th>Test Date</th>
+                            <th>Result</th>
+                            <th>Remarks</th>
+                            <th>technician_name</th>
+                            <th>doctor_name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${testResults.map(result => `
+                            <tr>
+                                <td>${result.test_name}</td>
+                                <td>${result.test_date}</td>
+                                <td>${result.result}</td>
+                                <td>${result.remarks}</td>
+                                <td>${result.technician_name}</td>
+                                <td>${result.doctor_name}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                `;
+                const testResultsContent = document.getElementById("testresultsContent");
+                testResultsContent.innerHTML = ''; // Clear previous content
+                testResultsContent.appendChild(testResultsTable);
+            } else {
+                const testResultsContent = document.getElementById("testresultsContent");
+                testResultsContent.innerHTML = '<p>No test results found.</p>';
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching test results:', error);
+            // Display an error message to the user or handle it as needed
+            const testResultsContent = document.getElementById("testresultsContent");
+            testResultsContent.innerHTML = '<p>Error fetching test results. Please try again later.</p>';
+        });
+}
+
+
 
 
 
@@ -87,6 +147,7 @@ function showQuotations() {
     hideAllContent();
     document.getElementById("quotationsContent").style.display = "block";
     fetchQuotations(); // Call function to fetch and display quotations
+    document.getElementById("inquiriesContent").style.display = "none";
 }
 
 
@@ -99,7 +160,7 @@ function showLogout() {
                 throw new Error('Logout request failed');
             }
             // Redirect to login page after logout
-            window.location.href = 'login.html';
+            window.location.href = 'userlogin.php';
         })
         .catch(error => {
             console.error('Error logging out:', error);
@@ -115,6 +176,9 @@ function hideAllContent() {
     document.getElementById("viewPrescriptionsContent").style.display = "none";
     document.getElementById("quotationsContent").style.display = "none";
     document.getElementById("appointmentsContent").style.display = "none";
+    document.getElementById("inquiriesContent").style.display = "none";
+    document.getElementById("testresultsContent").style.display = "none";
+
 }
 
 
