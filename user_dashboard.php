@@ -94,6 +94,8 @@ $dashboardManager->closeConnection();
     <link rel="stylesheet" href="prescription.css">
     <link rel="stylesheet" href="profile.css">
     <link rel="stylesheet" href="viewprescriptions.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
 
     <style>
 
@@ -104,21 +106,24 @@ $dashboardManager->closeConnection();
     <div class="dashboard">
 
         <nav class="sidebar">
-            <h2>User Dashboard</h2>
-            <ul>
-                <li><a href="#" onclick="showPatient()">Profile</a></li>
-                <li><a href="#" onclick="showAppointments()">Appointments</a></li>
-                <li><a href="#" onclick="showUploadPrescription()">Upload Prescription</a></li>
-                <li><a href="#" onclick="showViewPrescriptions()">View Prescriptions</a></li>
-                <li><a href="#" onclick="showQuotations()">Quotations</a></li>
-                <li><a href="#" onclick="showInquiries()">Inquiries</a></li>
-                <li><a href="#" onclick="showLogout()">Logout</a></li>
-            </ul>
+        <img src="logo.png" alt="Your Logo" style="width: 100%; max-width: 200px; margin-bottom: 20px;">
+            
+        <ul>
+    <li><a href="#" onclick="showPatient()"><i class="fas fa-user"></i>&nbsp;&nbsp;&nbsp;&nbsp;Profile</a></li>
+    <li><a href="#" onclick="showAppointments()"><i class="fas fa-calendar-alt"></i>&nbsp;&nbsp;&nbsp;&nbsp;Appointments</a></li>
+    <li><a href="#" onclick="showUploadPrescription()"><i class="fas fa-file-prescription"></i>&nbsp;&nbsp;&nbsp;&nbsp;Upload Prescription</a></li>
+    <li><a href="#" onclick="showViewPrescriptions()"><i class="fas fa-file-medical"></i>&nbsp;&nbsp;&nbsp;&nbsp;View Prescriptions</a></li>
+    <li><a href="#" onclick="showQuotations()"><i class="fas fa-file-invoice-dollar"></i>&nbsp;&nbsp;&nbsp;&nbsp;Quotations</a></li>
+    <li><a href="#" onclick="showInquiries()"><i class="fas fa-comments"></i>&nbsp;&nbsp;&nbsp;&nbsp;Inquiries</a></li>
+    <li><a href="#" onclick="showTestresults()"><i class="fas fa-vial"></i>&nbsp;&nbsp;&nbsp;&nbsp;Test results</a></li>
+    <li><a href="#" onclick="showLogout()"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;&nbsp;&nbsp;Logout</a></li>
+</ul>
+
         </nav>
 
         <div class="main">
             <header>
-                <h1>Welcome to Your Dashboard</h1>
+                <h1>Welcome to Your Dashboard!</h1>
             </header>
             <div id="profileContent" class="content">
                 <h2>Profile</h2>
@@ -156,13 +161,11 @@ $dashboardManager->closeConnection();
                     echo "User not logged in.";
                 }
                 ?>
-<div style="max-width: 30%; float: right; text-align: center; padding-top: 30px;">
-        <img src="logo.png" alt="Logo" style="max-width: 100%; height: auto;">
-    </div>
+
             </div>
 
 
-            <div id="appointmentsContent" class="content" style="display: none;" >
+            <div id="appointmentsContent" class="content" style="display: none;" style="width: max-content;">
                 <h2>Appointments</h2>
                 <table>
                     <thead>
@@ -175,7 +178,7 @@ $dashboardManager->closeConnection();
                             <th>Appointment Time</th>
                             <th>Appointment Type</th>
                             <th>Section</th>
-                            <th>Created At</th>
+
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -206,7 +209,7 @@ $dashboardManager->closeConnection();
                                 echo "<td>{$row['appointment_time']}</td>";
                                 echo "<td>{$row['appointment_type']}</td>";
                                 echo "<td>{$row['section']}</td>";
-                                echo "<td>{$row['created_at']}</td>";
+
                                 echo "<td><a href='user_edit_appointment.php?id={$row['ID']}' class='edit-btn'>Edit</a> <a href='delete_appointment.php?id={$row['ID']}' class='delete-btn'>Delete</a></td>";
                                 echo "</tr>";
                             }
@@ -361,6 +364,7 @@ $dashboardManager->closeConnection();
                             echo "<td>";
                             echo "<button class='accept-button' onclick='acceptQuotation({$quotation['id']})'>Accept</button>";
                             echo "<button class='reject-button' onclick='rejectQuotation({$quotation['id']})'>Reject</button>";
+                            echo "<a href='quotationpdf_process.php?id={$quotation['id']}' class='invoice-button' style='background-color: darkblue; color: #fff; padding: 8px 16px; text-decoration: none; border-radius: 5px; display: inline-block;'>Invoice</a>";
                             echo "</td>";
                             echo "</tr>";
                         }
@@ -369,89 +373,114 @@ $dashboardManager->closeConnection();
                         echo "No quotation details found.";
                     }
                     ?>
+
                 </div>
             </div>
 
-            <div id="inquiriesContent" class="content"style="display: none;" >
-    <h2>Inquiries</h2>
-    <hr>
-    <div class="container">
-        <h2>Submit Inquiry</h2>
-        <style>
-            .container {
-                max-width: 500px;
-                margin: 0 auto;
-                padding: 20px;
-                border: 1px solid #ccc;
-                border-radius: 5px;
-                background-color: #f9f9f9;
-            }
+            <div id="inquiriesContent" class="content" style="display: none;">
+                <h2>Inquiries</h2>
+                <hr>
+                <div class="container">
+                    <h2>Submit Inquiry</h2>
+                    <style>
+                        .container {
+                            max-width: 500px;
+                            margin: 0 auto;
+                            padding: 20px;
+                            border: 1px solid #ccc;
+                            border-radius: 5px;
+                            background-color: #f9f9f9;
+                        }
 
-            h2 {
-                text-align: center;
-                margin-bottom: 20px;
-            }
+                        h2 {
+                            text-align: center;
+                            margin-bottom: 20px;
+                        }
 
-            .form-group {
-                margin-bottom: 15px;
-            }
+                        .form-group {
+                            margin-bottom: 15px;
+                        }
 
-            label {
-                display: block;
-                font-weight: bold;
-            }
+                        label {
+                            display: block;
+                            font-weight: bold;
+                        }
 
-            input[type="text"],
-            input[type="email"],
-            textarea {
-                width: 100%;
-                padding: 10px;
-                border: 1px solid #ccc;
-                border-radius: 5px;
-                box-sizing: border-box;
-            }
+                        input[type="text"],
+                        input[type="email"],
+                        textarea {
+                            width: 100%;
+                            padding: 10px;
+                            border: 1px solid #ccc;
+                            border-radius: 5px;
+                            box-sizing: border-box;
+                        }
 
-            textarea {
-                height: 150px;
-            }
+                        textarea {
+                            height: 150px;
+                        }
 
-            input[type="submit"] {
-                width: 100%;
-                padding: 10px;
-                border: none;
-                border-radius: 5px;
-                background-color: #007bff;
-                color: #fff;
-                font-size: 16px;
-                cursor: pointer;
-            }
+                        input[type="submit"] {
+                            width: 100%;
+                            padding: 10px;
+                            border: none;
+                            border-radius: 5px;
+                            background-color: #007bff;
+                            color: #fff;
+                            font-size: 16px;
+                            cursor: pointer;
+                        }
 
-            input[type="submit"]:hover {
-                background-color: #0056b3;
-            }
-        </style>
+                        input[type="submit"]:hover {
+                            background-color: #0056b3;
+                        }
+                    </style>
 
-        <form action="process_inquiry.php" method="post">
-            <div class="form-group">
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" required>
-            </div>
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
-            </div>
-            <div class="form-group">
-                <label for="subject">Subject:</label>
-                <input type="text" id="subject" name="subject" required>
-            </div>
-            <div class="form-group">
-                <label for="message">Message:</label>
-                <textarea id="message" name="message" required></textarea>
-            </div>
-            <input type="submit" value="Submit Inquiry">
-        </form>
+<form action="process_inquiry.php" method="post">
+    <div class="form-group">
+        <label for="name"><i class="fas fa-user" style="color: #002852;"></i> Name:</label>
+        <input type="text" id="name" name="name" required>
     </div>
-</div>
+    <div class="form-group">
+        <label for="email"><i class="fas fa-envelope" style="color: #002852;"></i> Email:</label>
+        <input type="email" id="email" name="email" required>
+    </div>
+    <div class="form-group">
+        <label for="subject"><i class="fas fa-heading" style="color: #002852;"></i> Subject:</label>
+        <input type="text" id="subject" name="subject" required>
+    </div>
+    <div class="form-group">
+        <label for="message"><i class="fas fa-comment" style="color: #002852;"></i> Message:</label>
+        <textarea id="message" name="message" required></textarea>
+    </div>
+    <input type="submit" value="Submit Inquiry" style="background-color: #002852; color: #fff;">
+</form>
+
+                </div>
+            </div>
+
+
+
+            <div id="testresultsContent" class="content" style="display: none;">
+                <h2>Test Results</h2>
+                <table>
+        <thead>
+            <tr>
+                <th>Test Name</th>
+                <th>Test Date</th>
+                <th>Result</th>
+                <th>Remarks</th>
+                <th>Technician's name</th>
+                <th>doctor's name</th>
+
+            </tr>
+        </thead>
+        <tbody id="testResultsTableBody">
+            <!-- Test results will be dynamically added here -->
+        </tbody>
+    </table>
+                
+            </div>
 
 
 
