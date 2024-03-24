@@ -15,11 +15,41 @@
             <h2>Uploaded Prescription Images</h2>
             <!-- Display uploaded prescription images here -->
             <div class="prescription-images">
-                <!-- Placeholder for prescription images -->
-                <img src="prescription_image1.jpg" alt="Prescription Image">
-                <img src="prescription_image2.jpg" alt="Prescription Image">
-                <!-- Add more prescription images here -->
-            </div>
+    <?php
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "abc laboratories";
+    
+    // Establish database connection
+    $conn = new mysqli($servername, $username, $password, $dbname);
+    
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    
+
+    // Fetch prescription images uploaded by the user
+    $user_id = $_GET['user_id']; // Get user ID from the URL parameter
+    $sql = "SELECT * FROM prescriptions WHERE user_id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    // Display prescription images
+    while ($row = $result->fetch_assoc()) {
+        for ($i = 1; $i <= 5; $i++) {
+            $image_url = $row["image_" . $i];
+            if (!empty($image_url)) {
+                echo "<img src='" . $image_url . "' alt='Prescription Image'>";
+            }
+        }
+    }
+    ?>
+</div>
+
         </div>
         <div class="right">
         <h2>Quotation Preparation</h2>
