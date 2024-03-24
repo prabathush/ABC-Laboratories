@@ -54,6 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Profile</title>
     <!-- Add your CSS stylesheets or include them from external files -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -89,7 +90,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             box-sizing: border-box;
         }
         input[type="submit"] {
-            background-color: #4caf50;
+            background-color: #001934;
             color: #fff;
             padding: 10px 20px;
             border: none;
@@ -103,20 +104,20 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 </head>
 <body>
     <div class="container">
-    <h2>Edit Profile</h2>
-    <form action="edit_profile_process.php" method="post">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" value="<?= $userProfile['name'] ?>" required><br><br>
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" value="<?= $userProfile['email'] ?>" required><br><br>
-        <label for="address">Address:</label>
-        <input type="text" id="address" name="address" value="<?= $userProfile['address'] ?>" required><br><br>
-        <label for="contact">Contact:</label>
-        <input type="text" id="contact" name="contact" value="<?= $userProfile['contact'] ?>" required><br><br>
-        <label for="dob">Date of Birth:</label>
-        <input type="date" id="dob" name="dob" value="<?= $userProfile['dob'] ?>" required><br><br>
-        <input type="submit" value="Update Profile">
-    </form>
+        <h2>Edit Profile <i class="fas fa-user-edit" style="color: #001934;"></i></h2>
+        <form action="edit_profile_process.php" method="post">
+            <label for="name"><i class="fas fa-user" style="color: #001934;"></i> Name:</label>
+            <input type="text" id="name" name="name" value="<?= $userProfile['name'] ?>" required><br><br>
+            <label for="email"><i class="fas fa-envelope" style="color: #001934;"></i> Email:</label>
+            <input type="email" id="email" name="email" value="<?= $userProfile['email'] ?>" required><br><br>
+            <label for="address"><i class="fas fa-map-marker-alt" style="color: #001934;"></i> Address:</label>
+            <input type="text" id="address" name="address" value="<?= $userProfile['address'] ?>" required><br><br>
+            <label for="contact"><i class="fas fa-phone" style="color: #001934;"></i> Contact:</label>
+            <input type="text" id="contact" name="contact" value="<?= $userProfile['contact'] ?>" required><br><br>
+            <label for="dob"><i class="fas fa-calendar-alt" style="color: #001934;"></i> Date of Birth:</label>
+            <input type="date" id="dob" name="dob" value="<?= $userProfile['dob'] ?>" required><br><br>
+            <input type="submit" value="Update Profile">
+        </form>
     </div>
 </body>
 </html>
