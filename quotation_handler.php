@@ -41,9 +41,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Get form data
-    $drug = $_POST['drug'] ?? '';
-    $quantity = $_POST['quantity'] ?? '';
-    $price = $_POST['price'] ?? '';
+    $drug = $_POST['drug'] ;
+    $quantity = $_POST['quantity'] ;
+    $price = $_POST['price'] ;
 
     // Insert quotation details into the database
     $sql = "INSERT INTO quotations (user_id, drug, quantity, price) VALUES (?, ?, ?, ?)";
